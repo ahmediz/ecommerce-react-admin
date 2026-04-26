@@ -1,0 +1,23 @@
+---
+description: Prefer shadcn MCP (user-shadcn-ui) for all shadcn/ui work
+alwaysApply: true
+---
+
+# shadcn/ui via MCP (Required)
+
+When working in this project, **always prefer using the `user-shadcn-ui` MCP server** for anything related to shadcn/ui, including:
+
+- Adding/installing shadcn/ui components
+- Updating shadcn/ui configuration, theme, or styling tokens
+- Installing any dependencies required by shadcn/ui components
+- Following shadcn/ui-recommended patterns for component usage
+
+## How to proceed
+
+- First attempt: use `user-shadcn-ui` MCP tools to add/modify shadcn/ui components/config.
+- If MCP cannot complete the task (tool limitation/error), then proceed with manual code changes, but keep the result consistent with shadcn/ui conventions.
+
+## Scope
+
+This rule applies to **all sessions** for this project.
+
