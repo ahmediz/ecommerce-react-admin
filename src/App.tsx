@@ -1,5 +1,14 @@
-function App() {
-  return <div>Hello World</div>;
-}
+import { RouterProvider } from "@tanstack/react-router";
 
-export default App;
+import { router } from "@/router/router";
+import { SidebarProvider } from "./components/ui/sidebar";
+
+export default function App() {
+  return (
+    <>
+      <SidebarProvider>
+        <RouterProvider router={router} />
+      </SidebarProvider>
+    </>
+  );
+}
