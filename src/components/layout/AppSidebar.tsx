@@ -1,8 +1,10 @@
 import {
   Sidebar,
-  SidebarContent, SidebarHeader, SidebarMenu,
+  SidebarContent,
+  SidebarHeader,
+  SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem
+  SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Box, Building, Home, List } from "lucide-react";
 import { useState } from "react";
@@ -31,6 +33,7 @@ export function AppSidebar() {
       href: "/brands",
     },
   ]);
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -42,7 +45,13 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarMenu>
           {navItems.map((item) => (
-            <Link to={item.href} key={item.href}>
+            <Link
+              to={item.href}
+              key={item.href}
+              activeProps={{
+                className: "bg-sidebar-accent text-sidebar-accent-foreground",
+              }}
+            >
               <SidebarMenuItem>
                 <SidebarMenuButton>
                   {item.icon}

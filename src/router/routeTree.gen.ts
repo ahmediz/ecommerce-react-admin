@@ -9,15 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './../routes/__root'
-import { Route as LayoutRouteImport } from './../routes/_layout'
+import { Route as AppRouteImport } from './../routes/_app'
 import { Route as IndexRouteImport } from './../routes/index'
-import { Route as LayoutProductsRouteImport } from './../routes/_layout/products'
-import { Route as LayoutHomeRouteImport } from './../routes/_layout/home'
-import { Route as LayoutCategoriesRouteImport } from './../routes/_layout/categories'
-import { Route as LayoutBrandsRouteImport } from './../routes/_layout/brands'
+import { Route as AppProductsRouteImport } from './../routes/_app/products'
+import { Route as AppHomeRouteImport } from './../routes/_app/home'
+import { Route as AppBrandsRouteRouteImport } from './../routes/_app/brands/route'
+import { Route as AppCategoriesIndexRouteImport } from './../routes/_app/categories/index'
+import { Route as AppBrandsAddRouteImport } from './../routes/_app/brands/add'
+import { Route as AppBrandsEditBrandIdRouteImport } from './../routes/_app/brands/edit.$brandId'
 
-const LayoutRoute = LayoutRouteImport.update({
-  id: '/_layout',
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,77 +27,109 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LayoutProductsRoute = LayoutProductsRouteImport.update({
+const AppProductsRoute = AppProductsRouteImport.update({
   id: '/products',
   path: '/products',
-  getParentRoute: () => LayoutRoute,
+  getParentRoute: () => AppRoute,
 } as any)
-const LayoutHomeRoute = LayoutHomeRouteImport.update({
+const AppHomeRoute = AppHomeRouteImport.update({
   id: '/home',
   path: '/home',
-  getParentRoute: () => LayoutRoute,
+  getParentRoute: () => AppRoute,
 } as any)
-const LayoutCategoriesRoute = LayoutCategoriesRouteImport.update({
-  id: '/categories',
-  path: '/categories',
-  getParentRoute: () => LayoutRoute,
-} as any)
-const LayoutBrandsRoute = LayoutBrandsRouteImport.update({
+const AppBrandsRouteRoute = AppBrandsRouteRouteImport.update({
   id: '/brands',
   path: '/brands',
-  getParentRoute: () => LayoutRoute,
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCategoriesIndexRoute = AppCategoriesIndexRouteImport.update({
+  id: '/categories/',
+  path: '/categories/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBrandsAddRoute = AppBrandsAddRouteImport.update({
+  id: '/add',
+  path: '/add',
+  getParentRoute: () => AppBrandsRouteRoute,
+} as any)
+const AppBrandsEditBrandIdRoute = AppBrandsEditBrandIdRouteImport.update({
+  id: '/edit/$brandId',
+  path: '/edit/$brandId',
+  getParentRoute: () => AppBrandsRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/brands': typeof LayoutBrandsRoute
-  '/categories': typeof LayoutCategoriesRoute
-  '/home': typeof LayoutHomeRoute
-  '/products': typeof LayoutProductsRoute
+  '/brands': typeof AppBrandsRouteRouteWithChildren
+  '/home': typeof AppHomeRoute
+  '/products': typeof AppProductsRoute
+  '/brands/add': typeof AppBrandsAddRoute
+  '/categories/': typeof AppCategoriesIndexRoute
+  '/brands/edit/$brandId': typeof AppBrandsEditBrandIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/brands': typeof LayoutBrandsRoute
-  '/categories': typeof LayoutCategoriesRoute
-  '/home': typeof LayoutHomeRoute
-  '/products': typeof LayoutProductsRoute
+  '/brands': typeof AppBrandsRouteRouteWithChildren
+  '/home': typeof AppHomeRoute
+  '/products': typeof AppProductsRoute
+  '/brands/add': typeof AppBrandsAddRoute
+  '/categories': typeof AppCategoriesIndexRoute
+  '/brands/edit/$brandId': typeof AppBrandsEditBrandIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/_layout': typeof LayoutRouteWithChildren
-  '/_layout/brands': typeof LayoutBrandsRoute
-  '/_layout/categories': typeof LayoutCategoriesRoute
-  '/_layout/home': typeof LayoutHomeRoute
-  '/_layout/products': typeof LayoutProductsRoute
+  '/_app': typeof AppRouteWithChildren
+  '/_app/brands': typeof AppBrandsRouteRouteWithChildren
+  '/_app/home': typeof AppHomeRoute
+  '/_app/products': typeof AppProductsRoute
+  '/_app/brands/add': typeof AppBrandsAddRoute
+  '/_app/categories/': typeof AppCategoriesIndexRoute
+  '/_app/brands/edit/$brandId': typeof AppBrandsEditBrandIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/brands' | '/categories' | '/home' | '/products'
+  fullPaths:
+    | '/'
+    | '/brands'
+    | '/home'
+    | '/products'
+    | '/brands/add'
+    | '/categories/'
+    | '/brands/edit/$brandId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/brands' | '/categories' | '/home' | '/products'
+  to:
+    | '/'
+    | '/brands'
+    | '/home'
+    | '/products'
+    | '/brands/add'
+    | '/categories'
+    | '/brands/edit/$brandId'
   id:
     | '__root__'
     | '/'
-    | '/_layout'
-    | '/_layout/brands'
-    | '/_layout/categories'
-    | '/_layout/home'
-    | '/_layout/products'
+    | '/_app'
+    | '/_app/brands'
+    | '/_app/home'
+    | '/_app/products'
+    | '/_app/brands/add'
+    | '/_app/categories/'
+    | '/_app/brands/edit/$brandId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  LayoutRoute: typeof LayoutRouteWithChildren
+  AppRoute: typeof AppRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_layout': {
-      id: '/_layout'
+    '/_app': {
+      id: '/_app'
       path: ''
       fullPath: '/'
-      preLoaderRoute: typeof LayoutRouteImport
+      preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -105,57 +139,84 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_layout/products': {
-      id: '/_layout/products'
+    '/_app/products': {
+      id: '/_app/products'
       path: '/products'
       fullPath: '/products'
-      preLoaderRoute: typeof LayoutProductsRouteImport
-      parentRoute: typeof LayoutRoute
+      preLoaderRoute: typeof AppProductsRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/_layout/home': {
-      id: '/_layout/home'
+    '/_app/home': {
+      id: '/_app/home'
       path: '/home'
       fullPath: '/home'
-      preLoaderRoute: typeof LayoutHomeRouteImport
-      parentRoute: typeof LayoutRoute
+      preLoaderRoute: typeof AppHomeRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/_layout/categories': {
-      id: '/_layout/categories'
-      path: '/categories'
-      fullPath: '/categories'
-      preLoaderRoute: typeof LayoutCategoriesRouteImport
-      parentRoute: typeof LayoutRoute
-    }
-    '/_layout/brands': {
-      id: '/_layout/brands'
+    '/_app/brands': {
+      id: '/_app/brands'
       path: '/brands'
       fullPath: '/brands'
-      preLoaderRoute: typeof LayoutBrandsRouteImport
-      parentRoute: typeof LayoutRoute
+      preLoaderRoute: typeof AppBrandsRouteRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/categories/': {
+      id: '/_app/categories/'
+      path: '/categories'
+      fullPath: '/categories/'
+      preLoaderRoute: typeof AppCategoriesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/brands/add': {
+      id: '/_app/brands/add'
+      path: '/add'
+      fullPath: '/brands/add'
+      preLoaderRoute: typeof AppBrandsAddRouteImport
+      parentRoute: typeof AppBrandsRouteRoute
+    }
+    '/_app/brands/edit/$brandId': {
+      id: '/_app/brands/edit/$brandId'
+      path: '/edit/$brandId'
+      fullPath: '/brands/edit/$brandId'
+      preLoaderRoute: typeof AppBrandsEditBrandIdRouteImport
+      parentRoute: typeof AppBrandsRouteRoute
     }
   }
 }
 
-interface LayoutRouteChildren {
-  LayoutBrandsRoute: typeof LayoutBrandsRoute
-  LayoutCategoriesRoute: typeof LayoutCategoriesRoute
-  LayoutHomeRoute: typeof LayoutHomeRoute
-  LayoutProductsRoute: typeof LayoutProductsRoute
+interface AppBrandsRouteRouteChildren {
+  AppBrandsAddRoute: typeof AppBrandsAddRoute
+  AppBrandsEditBrandIdRoute: typeof AppBrandsEditBrandIdRoute
 }
 
-const LayoutRouteChildren: LayoutRouteChildren = {
-  LayoutBrandsRoute: LayoutBrandsRoute,
-  LayoutCategoriesRoute: LayoutCategoriesRoute,
-  LayoutHomeRoute: LayoutHomeRoute,
-  LayoutProductsRoute: LayoutProductsRoute,
+const AppBrandsRouteRouteChildren: AppBrandsRouteRouteChildren = {
+  AppBrandsAddRoute: AppBrandsAddRoute,
+  AppBrandsEditBrandIdRoute: AppBrandsEditBrandIdRoute,
 }
 
-const LayoutRouteWithChildren =
-  LayoutRoute._addFileChildren(LayoutRouteChildren)
+const AppBrandsRouteRouteWithChildren = AppBrandsRouteRoute._addFileChildren(
+  AppBrandsRouteRouteChildren,
+)
+
+interface AppRouteChildren {
+  AppBrandsRouteRoute: typeof AppBrandsRouteRouteWithChildren
+  AppHomeRoute: typeof AppHomeRoute
+  AppProductsRoute: typeof AppProductsRoute
+  AppCategoriesIndexRoute: typeof AppCategoriesIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppBrandsRouteRoute: AppBrandsRouteRouteWithChildren,
+  AppHomeRoute: AppHomeRoute,
+  AppProductsRoute: AppProductsRoute,
+  AppCategoriesIndexRoute: AppCategoriesIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  LayoutRoute: LayoutRouteWithChildren,
+  AppRoute: AppRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

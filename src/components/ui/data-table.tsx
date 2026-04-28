@@ -14,15 +14,21 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Skeleton } from "./skeleton";
+import { Trash } from "lucide-react";
+import { Button } from "./button";
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
   data: TData[] | undefined;
+  onDelete: (id: string) => void;
+  onEdit: (id: string) => void;
 };
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  onDelete,
+  onEdit,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data: data || [],
@@ -58,6 +64,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={() => onEdit(row.original['id'])}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -67,6 +74,17 @@ export function DataTable<TData, TValue>({
                       )}
                     </TableCell>
                   ))}
+                  <TableCell>
+                    <Button
+                      variant="destructive"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onDelete(row.original['id']);
+                      }}
+                    >
+                      <Trash />
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
@@ -83,12 +101,12 @@ export function DataTable<TData, TValue>({
             Array.from({ length: 10 }).map((_, index) => (
               <TableRow key={index}>
                 {columns.map((column) => (
-                  <TableCell key={column['accessorKey']}>
+                  <TableCell key={column["accessorKey"]}>
                     <Skeleton className="h-[20px] w-[100px] rounded-full" />
                   </TableCell>
                 ))}
               </TableRow>
-            ))  
+            ))
           )}
         </TableBody>
       </Table>
