@@ -30,9 +30,8 @@ export function AddNewBrandPage() {
       name: brand?.name || "",
     },
     validators: {
-      // Pass a schema or function to validate
       onChange: z.object({
-        name: z.string(),
+        name: z.string().nonempty({error: "Name is required"}),
       }),
     },
     onSubmit: ({ value }) => {

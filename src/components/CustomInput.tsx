@@ -1,4 +1,4 @@
-import { Field, FieldDescription, FieldLabel } from "./ui/field";
+import { Field, FieldDescription, FieldError, FieldLabel } from "./ui/field";
 import { Input } from "./ui/input";
 
 type CustomInputProps = {
@@ -19,15 +19,20 @@ export function CustomInput({
   type = "text",
   placeholder = `${name}...`,
 }: CustomInputProps) {
+  const isInvalid = field.state.meta.errors?.length > 0;
   return (
-    <Field>
+    <Field data-invalid={isInvalid}>
       <FieldLabel htmlFor={name}>{label}</FieldLabel>
       <Input
         type={type}
         placeholder={placeholder}
         value={field.state.value}
         onChange={(e) => field.handleChange(e.target.value)}
+        aria-invalid={isInvalid}
       />
+      {isInvalid && (
+        <FieldError>{field.state.meta.errors?.[0]?.message}</FieldError>
+      )}
       {description && <FieldDescription>{description}</FieldDescription>}
     </Field>
   );
