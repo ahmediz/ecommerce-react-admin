@@ -2,6 +2,10 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { ProductOutputDTO } from "../dto/ProductOutputDTO";
 export const columns: ColumnDef<ProductOutputDTO>[] = [
   {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
     accessorKey: "name",
     header: "Name",
   },
