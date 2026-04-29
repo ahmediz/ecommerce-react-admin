@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 export type ApiErrorCode =
   | "ABORTED"
   | "NETWORK_ERROR"
@@ -107,8 +109,10 @@ export async function apiFetch<T>(opts: ApiFetchOptions): Promise<T> {
       ...opts,
       headers,
       body: hasBody ? JSON.stringify(opts.body) : undefined,
+      // credentials: "include",
     });
   } catch (err) {
+    console.log(err);
     if (isAbortError(err)) {
       throw new ApiError("Request was aborted.", { code: "ABORTED" });
     }
@@ -125,6 +129,7 @@ export async function apiFetch<T>(opts: ApiFetchOptions): Promise<T> {
       getMessageFromUnknownBody(parsed) ??
       `Request failed with status ${res.status}.`;
 
+    toast.error(message);
     throw new ApiError(message, {
       code: "HTTP_ERROR",
       status: res.status,
@@ -134,4 +139,3 @@ export async function apiFetch<T>(opts: ApiFetchOptions): Promise<T> {
 
   return parsed as T;
 }
-
